@@ -1,0 +1,19 @@
+{
+  "name": "day_2",
+  "version": "1.0.0",
+  "description": "Learning node js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ranaco/node_js.git"
+  },
+  "author": "Rana Satyam Raj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ranaco/node_js/issues"
+  },
+  "homepage": "https://github.com/Ranaco/node_js#readme"
+}
