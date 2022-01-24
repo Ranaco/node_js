@@ -1,0 +1,10 @@
+body{
+    background-color: black;
+    align-items: center;
+}
+
+#error{
+    color: white;
+    font-size: 50px;
+    text-align: center;
+}
