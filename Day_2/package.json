@@ -4,6 +4,8 @@
   "description": "Learning node js",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/Ranaco/node_js/issues"
   },
-  "homepage": "https://github.com/Ranaco/node_js#readme"
+  "homepage": "https://github.com/Ranaco/node_js#readme",
+  "dependencies": {
+    "date-fns": "^2.28.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
