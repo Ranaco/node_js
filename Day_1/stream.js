@@ -1,10 +1,10 @@
 const fs = require('fs');
+const stream = require("stream");
 
-const ra = fs.createReadStream("./files/dead.txt", "utf8");
-const wa = fs.createWriteStream(`./files/new_dead.txt`);
+const rs = fs.createReadStream("./dead.txt", {encoding: "utf8"});
 
-ra.pipe(wa);
-//The above code is same as 
-// ra.on('data', (datChunk) => {
-//     wa.write(datChunk);
-// })
+const ws = fs.createWriteStream("./new_dead.txt");
+
+rs.on('data', (data) => {
+    ws.write(data);
+})
