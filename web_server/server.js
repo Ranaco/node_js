@@ -13,13 +13,23 @@ class Emitter extends eventEmitter{};
 //Finding the port here
 const PORT = process.env.PORT || 3500;
 
+//Creating an emitter object
+const emitter = new Emitter();
+
+//Creating a emitter function to respond to the emit
+emitter.on('rana', (msg) => logEvents(msg));
+
 
 //Creating a respose function
 const serverFile = async (filePath, contentType, response) => {
     try{
         const data = await fsPromise.readFile(filePath, 'utf8');
         response.writeHead(200, {'Content-Type': contentType});
+        if(path.basename(filePath) !== '404.html'){
+            emitter.emit('rana', path.basename(filePath));
+        }
         response.end(data);
+        
     }catch(err){
         console.log(err);
         response.statusCode = 500;
@@ -35,6 +45,7 @@ const server = http.createServer((req, res) => {
     const extension = path.extname(req.url);
      
     let contentType;
+    if(req.url === '/close') server.emit('close');
 
     switch(extension){
         case ".css":
@@ -75,8 +86,9 @@ const server = http.createServer((req, res) => {
     const fileExists = fs.existsSync(filePath);
 
     if(fileExists){
-        //Serve the file;
+        serverFile(path.join(filePath), contentType, res);
     } else {
+        //Redirecting to some new pages
         switch(path.parse(filePath).base){
             case 'old.html':
                 res.writeHead(301, {'Location': "new_page.html"});
@@ -95,13 +107,11 @@ const server = http.createServer((req, res) => {
 });
 
 //Listening to the server when it starts
-server.listen(PORT, () => console.log(`Starting server on the port ${PORT}`))
-
-//Creating an object for the above class
-const emitter = new Emitter();
+server.listen(PORT, () => console.log(`Starting server on port ${PORT}`))
 
 
-
-// emitter.on('log', (msg) => logEvents(msg));
-
-// emitter.emit('log', 'well this is the only thing I know')
+server.on('close', ()=> {
+    server.close((err) => {
+        console.log(err);
+    })
+})
