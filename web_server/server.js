@@ -20,16 +20,27 @@ const emitter = new Emitter();
 emitter.on('rana', (msg) => logEvents(msg));
 
 
-//Creating a respose function
+//Creating a minimal server here
+const server = http.createServer((req, res) => {
+    console.log(req.method, req.url);
+    
+    const extension = path.extname(req.url);
+
+
+    //Creating a respose function
 const serverFile = async (filePath, contentType, response) => {
     try{
-        const data = await fsPromise.readFile(filePath, 'utf8');
+        const rawData = await fsPromise.readFile(
+            filePath,
+            !contentType.includes('image') ? 'utf8' : '' //Not specifiying any type of decryption method so it let the image pass as it is;
+            );
+        const data = contentType === 'application/json' 
+                        ? JSON.parse(rawData) : rawData;
         response.writeHead(200, {'Content-Type': contentType});
         if(path.basename(filePath) !== '404.html'){
-            emitter.emit('rana', path.basename(filePath));
+            emitter.emit('rana',` ${path.basename(filePath)}\t${req.method}`);
         }
-        response.end(data);
-        
+        response.end(contentType === 'application/json' ? JSON.stringify(data) : data);
     }catch(err){
         console.log(err);
         response.statusCode = 500;
@@ -38,11 +49,7 @@ const serverFile = async (filePath, contentType, response) => {
 }
 
 
-//Creating a minimal server here
-const server = http.createServer((req, res) => {
-    console.log(req.method, req.url);
-    
-    const extension = path.extname(req.url);
+
      
     let contentType;
     if(req.url === '/close') server.emit('close');
