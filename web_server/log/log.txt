@@ -24,3 +24,7 @@
 22/01/25	04::03::16	f85c19e1-7200-4080-a65f-9979b356e11e	claw.png
 22/01/25	04::03::59	2ee7d6ad-1e17-4d8a-aa06-fbb08a031bb1	claw.png
 22/01/25	04::06::39	ddc0017b-b9a4-4cb8-a6df-e5ed8ca6d339	 claw.png	GET
+22/01/25	04::13::47	6c0eb8ab-ab52-4c98-a779-cbe1a88ee3ed	 index.html	GET
+22/01/25	04::14::40	faff3429-541f-440c-ad91-8e0d36205539	 index.html	GET
+22/01/25	04::14::49	17cef48c-a95b-41e2-a9f2-5d7ff953c9e8	 claw.png	GET
+22/01/25	04::15::02	4ef7e353-7c73-43a9-9321-18ed7b5bd677	 data.json	GET
