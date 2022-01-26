@@ -1,0 +1,11 @@
+body{
+    background-color: black;
+}
+
+#messages{
+    height: 300px;
+    width: 300px;
+    background-color: pink;
+    color: black;
+}
+
