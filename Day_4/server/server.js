@@ -1,23 +1,43 @@
 const WebSocket = require('ws');
+const path = require('path');
+const fs = require('fs');
+const fsPromise = require('fs').promises;
+const { format } = require('date-fns')
+const Emitter = require('events');
+const express = require('express');
+const app = express();
 
+app.use('/', express.static(path.resolve(__dirname, '../client')));
+
+const server = app.listen(5500, () => {
+    console.log(`Express server running on port :: 3500`);
+})
 const PORT = process.env.PORT || 3500;
 
-const wss = new WebSocket.Server({
-    port: PORT, 
-}, function() {
-    console.log(`WebSocket is running on port :: ${PORT}`);
-})
+const webSocket = new WebSocket.Server({server, verifyClient: (info) => {
+    console.log(info);
+    return false;
+}}, () => console.log(`Server started at port :: ${PORT}`));
 
-//Creating a connection function that will respond if there is a connection established
-wss.on('connection', (ws) => {
-    // ws.send("Hello from server!");
-    ws.on('message', function(msg){
-        const buf = Buffer.from(msg);
-        ws.send(buf.toString());
+
+const clients = [];
+
+webSocket.on('connection', (ws) => {
+    clients.push(ws);
+    ws.send('Welcome to the websocket');
+    ws.on('message',async (event) => {
+        const data = Buffer.from(event);
+        clients
+    // This thing is to check if the ready state of the particular client is open or close if it is then no message will be sent else it
+    // can be sent
+    //   webSocket.clients.forEach( (event) => {
+    //     if(event.readyState === event.OPEN){
+    //         event.send(data.toString());
+    //     }
+    //     })
     })
 })
 
-wss.on('listening', (msg) => {
-    console.log(msg);
-
+webSocket.on('listening', (event) => {
+    console.log(event);
 })

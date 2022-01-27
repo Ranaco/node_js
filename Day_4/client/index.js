@@ -1,36 +1,38 @@
-const url = 'ws://localhost:3500/to_a_new_tab'
 
-const ws = new WebSocket(url);
+const URL = `ws://localhost:3500/new_client`;
 
- const message = document.getElementById('messages');
- const input = document.getElementById('message');
- const button = document.getElementById("send");
+const ws = new WebSocket(URL);
+
+const button = document.getElementById('send');
+const message = document.getElementById('messages');
+const input = document.getElementById('message');
 
 button.disabled = true;
 
-const sendEntry = (sender, not) => {
-    const data = document.createElement('div');
-    data.innerText = `${sender} says : ${not}`;
-    message.appendChild(data);
+// const logEvents = (from, msg) => {
+
+// }
+
+const createEntry = (from, msg) => {
+    const data = `${from} says :: ${msg}`;
+    const newDiv = document.createElement('div');
+    newDiv.innerText = data;
+    message.appendChild(newDiv);
 }
 
 const sendMessage = () => {
-    const text = input.value;
-    sendEntry('client', text);
-    ws.send(text);
+    const msg = input.value;
+    createEntry('client', msg);
+    ws.send(msg);
+    input.value = null;
 }
 
-button.addEventListener('click', sendMessage, false)
+button.addEventListener('click', sendMessage, false);
 
-ws.onmessage = (event) => {
-    const { data } = event;
-    sendEntry('server', data)
-}
-
-
-
-//This makes sure that the server is live and running
 ws.onopen = () => {
     button.disabled = false;
-    ws.send('hello server from a local host');
+}
+
+ws.onmessage = (event) => {
+    createEntry('server', event.data);
 }

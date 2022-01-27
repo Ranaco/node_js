@@ -1,0 +1,7 @@
+22/27/52	02::52::10	hello	undefined
+22/27/52	02::52::59	helo	undefined
+22/27/53	02::53::15	hello	undefined
+22/27/53	02::53::56	server	hello
+22/27/54	02::54::07	server	hello
+22/27/54	02::54::19	server	hello
+22/27/14	07::14::29	server	hello
